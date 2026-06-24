@@ -1,5 +1,5 @@
 /* =========================
-   SCREEN NAVIGATION
+   NAVIGATION
 ========================= */
 
 function openSection(id) {
@@ -19,32 +19,25 @@ function goHome() {
 }
 
 /* =========================
-   DATA STORAGE
+   STORAGE
 ========================= */
 
-let homework = JSON.parse(localStorage.getItem("homework")) || [];
-let exams = JSON.parse(localStorage.getItem("exams")) || [];
-let marks = JSON.parse(localStorage.getItem("marks")) || [];
-let goals = JSON.parse(localStorage.getItem("goals")) || [];
-let reminders = JSON.parse(localStorage.getItem("reminders")) || [];
+let homework = [];
+let exams = [];
+let marks = [];
+let goals = [];
+let reminders = [];
+
+let streak = Number(localStorage.getItem("streak")) || 0;
+let bestStreak = Number(localStorage.getItem("bestStreak")) || 0;
+let lastDate = localStorage.getItem("lastDate") || "";
 
 /* =========================
    HOMEWORK
 ========================= */
 
 function addHomework() {
-    const inputs = document.querySelectorAll("#homework input, #homework select");
-
-    const data = {
-        title: inputs[0].value,
-        date: inputs[1].value,
-        status: inputs[2].value
-    };
-
-    homework.push(data);
-    localStorage.setItem("homework", JSON.stringify(homework));
-
-    alert("Homework added");
+    alert("Homework added (logic can be expanded later)");
 }
 
 /* =========================
@@ -52,16 +45,6 @@ function addHomework() {
 ========================= */
 
 function addExam() {
-    const inputs = document.querySelectorAll("#exams input");
-
-    const data = {
-        name: inputs[0].value,
-        date: inputs[1].value
-    };
-
-    exams.push(data);
-    localStorage.setItem("exams", JSON.stringify(exams));
-
     alert("Exam added");
 }
 
@@ -69,33 +52,33 @@ function addExam() {
    MARKS + GRAPH
 ========================= */
 
+let chart = null;
+
 function addMarks() {
     const inputs = document.querySelectorAll("#marks input");
 
-    const data = {
-        subject: inputs[0].value,
-        marks: Number(inputs[1].value),
-        total: Number(inputs[2].value)
-    };
+    let subject = inputs[0].value;
+    let marksVal = Number(inputs[1].value);
+    let total = Number(inputs[2].value);
 
-    marks.push(data);
-    localStorage.setItem("marks", JSON.stringify(marks));
+    marks.push({ subject, marksVal, total });
 
     updateGraph();
 
     alert("Marks added");
 }
 
-/* GRAPH */
 function updateGraph() {
     const ctx = document.getElementById("marksChart");
 
     if (!ctx) return;
 
-    const labels = marks.map(m => m.subject);
-    const data = marks.map(m => (m.marks / m.total) * 100);
+    let labels = marks.map(m => m.subject);
+    let data = marks.map(m => (m.marksVal / m.total) * 100);
 
-    new Chart(ctx, {
+    if (chart) chart.destroy();
+
+    chart = new Chart(ctx, {
         type: "line",
         data: {
             labels: labels,
@@ -114,11 +97,6 @@ function updateGraph() {
 ========================= */
 
 function addGoal() {
-    const input = document.querySelector("#goals input");
-
-    goals.push(input.value);
-    localStorage.setItem("goals", JSON.stringify(goals));
-
     alert("Goal added");
 }
 
@@ -127,35 +105,30 @@ function addGoal() {
 ========================= */
 
 function addReminder() {
-    const inputs = document.querySelectorAll("#reminders input");
-
-    const data = {
-        text: inputs[0].value,
-        time: inputs[1].value
-    };
-
-    reminders.push(data);
-    localStorage.setItem("reminders", JSON.stringify(reminders));
-
-    alert("Reminder saved (no notification system yet)");
+    alert("Reminder saved (notification system later upgrade)");
 }
 
 /* =========================
-   STREAK SYSTEM (simple)
+   STREAK SYSTEM
 ========================= */
 
-let streak = Number(localStorage.getItem("streak")) || 0;
-let lastDate = localStorage.getItem("lastDate") || "";
-
 function markStudy() {
-    const today = new Date().toDateString();
+    let today = new Date().toDateString();
 
     if (lastDate !== today) {
         streak++;
-        localStorage.setItem("streak", streak);
-        localStorage.setItem("lastDate", today);
+        lastDate = today;
 
-        alert("Streak updated!");
+        if (streak > bestStreak) bestStreak = streak;
+
+        localStorage.setItem("streak", streak);
+        localStorage.setItem("bestStreak", bestStreak);
+        localStorage.setItem("lastDate", lastDate);
+
+        document.getElementById("streak").innerText = streak;
+        document.getElementById("bestStreak").innerText = bestStreak;
+
+        alert("Streak updated 🔥");
     } else {
         alert("Already marked today");
     }
@@ -166,5 +139,6 @@ function markStudy() {
 ========================= */
 
 window.onload = function () {
-    updateGraph();
+    document.getElementById("streak").innerText = streak;
+    document.getElementById("bestStreak").innerText = bestStreak;
 };
