@@ -144,3 +144,9 @@ button:hover {
         margin: auto;
     }
 }
+.logo{
+    width:40px !important;
+    height:40px !important;
+    border-radius:8px;
+    object-fit:cover;
+}
