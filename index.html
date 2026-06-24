@@ -6,7 +6,10 @@
     <title>Student App v2</title>
 
     <link rel="stylesheet" href="style.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
@@ -21,89 +24,74 @@
     <button id="themeToggle">🌙</button>
 </header>
 
-<!-- HOME MENU -->
+<!-- HOME SCREEN -->
 <section id="homeScreen" class="screen active">
 
-    <h2>📚 Choose what you want to do</h2>
+    <h2>📚 Select Feature</h2>
 
     <div class="menu">
 
-        <button onclick="openSection('homework')">
-            📝 Homework
-        </button>
-
-        <button onclick="openSection('exams')">
-            ⏳ Exams
-        </button>
-
-        <button onclick="openSection('marks')">
-            📊 Marks
-        </button>
-
-        <button onclick="openSection('timetable')">
-            📅 Timetable
-        </button>
-
-        <button onclick="openSection('goals')">
-            🎯 Goals
-        </button>
-
-        <button onclick="openSection('reminders')">
-            ⏰ Reminders
-        </button>
-
-        <button onclick="openSection('streak')">
-            🔥 Streak
-        </button>
+        <button onclick="openSection('homework')">📝 Homework</button>
+        <button onclick="openSection('exams')">⏳ Exams</button>
+        <button onclick="openSection('marks')">📊 Marks</button>
+        <button onclick="openSection('timetable')">📅 Timetable</button>
+        <button onclick="openSection('goals')">🎯 Goals</button>
+        <button onclick="openSection('reminders')">⏰ Reminders</button>
+        <button onclick="openSection('streak')">🔥 Streak</button>
 
     </div>
 
 </section>
 
-<!-- HOMEWORK SCREEN -->
+<!-- HOMEWORK -->
 <section id="homework" class="screen">
+
     <h2>📝 Homework Tracker</h2>
 
     <input type="text" placeholder="Title">
     <input type="date">
+
     <select>
         <option>To Do</option>
         <option>In Progress</option>
         <option>Done</option>
     </select>
 
-    <button>Add Homework</button>
+    <button onclick="addHomework()">Add Homework</button>
 
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- EXAMS -->
 <section id="exams" class="screen">
+
     <h2>⏳ Exam Countdown</h2>
 
     <input type="text" placeholder="Exam name">
     <input type="date">
 
-    <button>Add Exam</button>
+    <button onclick="addExam()">Add Exam</button>
 
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- MARKS -->
 <section id="marks" class="screen">
+
     <h2>📊 Marks Recorder</h2>
 
     <input type="text" placeholder="Subject">
     <input type="number" placeholder="Marks">
     <input type="number" placeholder="Total">
 
-    <button>Add Marks</button>
+    <button onclick="addMarks()">Add Marks</button>
 
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- TIMETABLE -->
 <section id="timetable" class="screen">
+
     <h2>📅 Timetable</h2>
 
     <input type="text" placeholder="Subject">
@@ -117,48 +105,44 @@
 
 <!-- GOALS -->
 <section id="goals" class="screen">
+
     <h2>🎯 Goals</h2>
 
     <input type="text" placeholder="Goal">
-    <button>Add</button>
+
+    <button onclick="addGoal()">Add Goal</button>
 
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- REMINDERS -->
 <section id="reminders" class="screen">
-    <h2>⏰ Reminders</h2>
 
-    <input type="text" placeholder="Reminder">
+    <h2>⏰ Study Reminders</h2>
+
+    <input type="text" placeholder="Reminder text">
     <input type="datetime-local">
 
-    <button>Add</button>
+    <button onclick="addReminder()">Add Reminder</button>
 
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- STREAK -->
 <section id="streak" class="screen">
+
     <h2>🔥 Study Streak</h2>
 
-    <p>Current: 0</p>
-    <p>Best: 0</p>
+    <p>Current: <span id="streak">0</span></p>
+    <p>Best: <span id="bestStreak">0</span></p>
+
+    <button onclick="markStudy()">Mark Today Done</button>
 
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- SCRIPT -->
-<script>
-function openSection(id){
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-}
-
-function goHome(){
-    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-    document.getElementById('homeScreen').classList.add('active');
-}
-</script>
+<script src="script.js"></script>
 
 </body>
 </html>
