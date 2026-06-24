@@ -1,144 +1,106 @@
-/* =========================
-   NAVIGATION
-========================= */
-
-function openSection(id) {
-    document.querySelectorAll(".screen").forEach(s => {
-        s.classList.remove("active");
-    });
-
-    document.getElementById(id).classList.add("active");
+/* NAVIGATION */
+function openPage(page) {
+    document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
+    document.getElementById(page).classList.add("active");
 }
 
 function goHome() {
-    document.querySelectorAll(".screen").forEach(s => {
-        s.classList.remove("active");
-    });
-
-    document.getElementById("homeScreen").classList.add("active");
+    openPage("home");
 }
 
-/* =========================
-   STORAGE
-========================= */
-
-let homework = [];
-let exams = [];
-let marks = [];
-let goals = [];
-let reminders = [];
-
+/* STORAGE */
 let streak = Number(localStorage.getItem("streak")) || 0;
-let bestStreak = Number(localStorage.getItem("bestStreak")) || 0;
-let lastDate = localStorage.getItem("lastDate") || "";
+let best = Number(localStorage.getItem("best")) || 0;
+let last = localStorage.getItem("last") || "";
 
-/* =========================
-   HOMEWORK
-========================= */
-
+/* HOMEWORK */
 function addHomework() {
-    alert("Homework added (logic can be expanded later)");
+    alert("Homework added");
 }
 
-/* =========================
-   EXAMS
-========================= */
-
+/* EXAMS */
 function addExam() {
     alert("Exam added");
 }
 
-/* =========================
-   MARKS + GRAPH
-========================= */
-
-let chart = null;
+/* MARKS */
+let chart;
 
 function addMarks() {
-    const inputs = document.querySelectorAll("#marks input");
-
-    let subject = inputs[0].value;
-    let marksVal = Number(inputs[1].value);
-    let total = Number(inputs[2].value);
-
-    marks.push({ subject, marksVal, total });
-
-    updateGraph();
+    let subject = document.getElementById("subject").value;
+    let m = Number(document.getElementById("marks").value);
+    let t = Number(document.getElementById("total").value);
 
     alert("Marks added");
+
+    updateGraph(subject, m, t);
 }
 
-function updateGraph() {
+function updateGraph(subject, m, t) {
     const ctx = document.getElementById("marksChart");
 
     if (!ctx) return;
 
-    let labels = marks.map(m => m.subject);
-    let data = marks.map(m => (m.marksVal / m.total) * 100);
-
     if (chart) chart.destroy();
 
     chart = new Chart(ctx, {
-        type: "line",
+        type: "bar",
         data: {
-            labels: labels,
+            labels: [subject],
             datasets: [{
-                label: "Performance %",
-                data: data,
-                borderColor: "#4f46e5",
-                tension: 0.3
+                label: "Score %",
+                data: [(m / t) * 100],
+                backgroundColor: "#4f46e5"
             }]
         }
     });
 }
 
-/* =========================
-   GOALS
-========================= */
-
+/* GOALS */
 function addGoal() {
     alert("Goal added");
 }
 
-/* =========================
-   REMINDERS
-========================= */
-
+/* REMINDERS */
 function addReminder() {
-    alert("Reminder saved (notification system later upgrade)");
+    alert("Reminder saved (notifications later)");
 }
 
-/* =========================
-   STREAK SYSTEM
-========================= */
+/* TIMETABLE */
+function addTimetable() {
+    alert("Timetable saved");
+}
 
+/* STREAK */
 function markStudy() {
     let today = new Date().toDateString();
 
-    if (lastDate !== today) {
+    if (last !== today) {
         streak++;
-        lastDate = today;
+        last = today;
 
-        if (streak > bestStreak) bestStreak = streak;
+        if (streak > best) best = streak;
 
         localStorage.setItem("streak", streak);
-        localStorage.setItem("bestStreak", bestStreak);
-        localStorage.setItem("lastDate", lastDate);
+        localStorage.setItem("best", best);
+        localStorage.setItem("last", last);
 
-        document.getElementById("streak").innerText = streak;
-        document.getElementById("bestStreak").innerText = bestStreak;
+        document.getElementById("streakCount").innerText = streak;
+        document.getElementById("bestStreak").innerText = best;
 
         alert("Streak updated 🔥");
     } else {
-        alert("Already marked today");
+        alert("Already done today");
     }
 }
 
-/* =========================
-   INIT
-========================= */
-
+/* INIT */
 window.onload = function () {
-    document.getElementById("streak").innerText = streak;
-    document.getElementById("bestStreak").innerText = bestStreak;
+    document.getElementById("streakCount").innerText = streak;
+    document.getElementById("bestStreak").innerText = best;
 };
+
+/* PWA */
+if ("serviceWorker" in navigator) {
+    navigator.serviceWorker.register("sw.js");
+}
