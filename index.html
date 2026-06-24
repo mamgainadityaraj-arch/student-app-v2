@@ -7,37 +7,40 @@
 
     <link rel="stylesheet" href="style.css">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#4f46e5">
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 
 <body>
 
 <!-- TOP BAR -->
 <header class="topbar">
+    <img src="logo.png" class="logo">
+
     <div>
-        <h1>👤 Student Name</h1>
+        <h1>Student App</h1>
         <p>Class: 10th</p>
     </div>
-
-    <button id="themeToggle">🌙</button>
 </header>
 
-<!-- HOME SCREEN -->
-<section id="homeScreen" class="screen active">
+<!-- HOME -->
+<section id="home" class="screen active">
 
-    <h2>📚 Select Feature</h2>
+    <h2>📚 Dashboard</h2>
 
     <div class="menu">
 
-        <button onclick="openSection('homework')">📝 Homework</button>
-        <button onclick="openSection('exams')">⏳ Exams</button>
-        <button onclick="openSection('marks')">📊 Marks</button>
-        <button onclick="openSection('timetable')">📅 Timetable</button>
-        <button onclick="openSection('goals')">🎯 Goals</button>
-        <button onclick="openSection('reminders')">⏰ Reminders</button>
-        <button onclick="openSection('streak')">🔥 Streak</button>
+        <button onclick="openPage('homework')">📝 Homework</button>
+        <button onclick="openPage('exams')">⏳ Exams</button>
+        <button onclick="openPage('marks')">📊 Marks</button>
+        <button onclick="openPage('timetable')">📅 Timetable</button>
+        <button onclick="openPage('goals')">🎯 Goals</button>
+        <button onclick="openPage('reminders')">⏰ Reminders</button>
+        <button onclick="openPage('streak')">🔥 Streak</button>
 
     </div>
 
@@ -45,103 +48,88 @@
 
 <!-- HOMEWORK -->
 <section id="homework" class="screen">
+    <h2>📝 Homework</h2>
 
-    <h2>📝 Homework Tracker</h2>
+    <input type="text" id="hwTitle" placeholder="Title">
+    <input type="date" id="hwDate">
 
-    <input type="text" placeholder="Title">
-    <input type="date">
-
-    <select>
+    <select id="hwStatus">
         <option>To Do</option>
         <option>In Progress</option>
         <option>Done</option>
     </select>
 
-    <button onclick="addHomework()">Add Homework</button>
-
+    <button onclick="addHomework()">Add</button>
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- EXAMS -->
 <section id="exams" class="screen">
+    <h2>⏳ Exams</h2>
 
-    <h2>⏳ Exam Countdown</h2>
+    <input type="text" id="examName" placeholder="Exam Name">
+    <input type="date" id="examDate">
 
-    <input type="text" placeholder="Exam name">
-    <input type="date">
-
-    <button onclick="addExam()">Add Exam</button>
-
+    <button onclick="addExam()">Add</button>
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- MARKS -->
 <section id="marks" class="screen">
+    <h2>📊 Marks</h2>
 
-    <h2>📊 Marks Recorder</h2>
+    <input type="text" id="subject" placeholder="Subject">
+    <input type="number" id="marks" placeholder="Marks">
+    <input type="number" id="total" placeholder="Total">
 
-    <input type="text" placeholder="Subject">
-    <input type="number" placeholder="Marks">
-    <input type="number" placeholder="Total">
-
-    <button onclick="addMarks()">Add Marks</button>
-
+    <button onclick="addMarks()">Add</button>
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- TIMETABLE -->
 <section id="timetable" class="screen">
-
     <h2>📅 Timetable</h2>
 
-    <input type="text" placeholder="Subject">
-    <input type="time">
-    <input type="time">
+    <input type="text" id="sub" placeholder="Subject">
+    <input type="time" id="from">
+    <input type="time" id="to">
 
-    <button>Add</button>
-
+    <button onclick="addTimetable()">Add</button>
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- GOALS -->
 <section id="goals" class="screen">
-
     <h2>🎯 Goals</h2>
 
-    <input type="text" placeholder="Goal">
+    <input type="text" id="goal" placeholder="Goal">
 
-    <button onclick="addGoal()">Add Goal</button>
-
+    <button onclick="addGoal()">Add</button>
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- REMINDERS -->
 <section id="reminders" class="screen">
+    <h2>⏰ Reminders</h2>
 
-    <h2>⏰ Study Reminders</h2>
+    <input type="text" id="reminderText" placeholder="Reminder">
+    <input type="datetime-local" id="reminderTime">
 
-    <input type="text" placeholder="Reminder text">
-    <input type="datetime-local">
-
-    <button onclick="addReminder()">Add Reminder</button>
-
+    <button onclick="addReminder()">Add</button>
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
 <!-- STREAK -->
 <section id="streak" class="screen">
+    <h2>🔥 Streak</h2>
 
-    <h2>🔥 Study Streak</h2>
-
-    <p>Current: <span id="streak">0</span></p>
+    <p>Current: <span id="streakCount">0</span></p>
     <p>Best: <span id="bestStreak">0</span></p>
 
     <button onclick="markStudy()">Mark Today Done</button>
-
     <button onclick="goHome()">⬅ Back</button>
 </section>
 
-<!-- SCRIPT -->
 <script src="script.js"></script>
 
 </body>
